@@ -62,6 +62,29 @@ u_int64_t	get_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
+void	monitoring(t_table *table)
+{
+	int		i;
+	t_philo *philo;
+
+	philo = table->philo;
+	while (!get_end_flag(table))
+	{
+		pthread_mutex_lock(table->watch);
+		i = 0;
+		while (i < table->n_philo)
+		{
+			if (get_time() - philo[i].time_last_eat > table->time_to_die)
+			{
+				printf("%llu %d is died\n", (get_time() - table->start_time)
+				, philo->philo_no);
+				set_end_flag(table, 1);
+			}
+		}
+		pthread_mutex_unlock(table->watch);
+	}
+}
+
 void	wait_thread(t_table *table)
 {
 	int	i;
@@ -80,5 +103,6 @@ void	start_table(t_table *table)
 	table->start_time = get_time();
 	pthread_mutex_unlock(&table->watch);
 	usleep(400);
+	monitoring(table);
 	wait_thread(table);
 }

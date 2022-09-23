@@ -41,7 +41,11 @@ int	philo_eat(t_philo *philo)
 	print_message(philo, MSG_EAT, time);
 	philo->time_last_eat = time;
 	if (sleep_loop(philo, table->time_to_eat))
+	{
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
 		return (print_message(philo, MSG_DIE, time));
+	}
 	philo->cnt_eat++;
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);

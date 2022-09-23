@@ -22,15 +22,10 @@ int	print_message(t_philo *philo, int message_type,
 	if (check_sommone_die(table))
 	{
 		printf("phlio %d: 읍읍!!!%d\n", philo->philo_no, message_type);
+		pthread_mutex_unlock(&table->watch);
 		return (1);
 	}
-	if (message_type == MSG_DIE)
-	{
-		set_is_die(philo, 1);
-		printf("%llu %d is died\n", (get_time() - table->start_time)
-				, philo->philo_no);
-	}
-	else if (message_type == MSG_EAT)
+	if (message_type == MSG_EAT)
 		printf("%llu %d is eating\n", (time - table->start_time)
 				, philo->philo_no);
 	else if (message_type == MSG_SLEEP)
