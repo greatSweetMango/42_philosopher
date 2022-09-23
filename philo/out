@@ -1,0 +1,23 @@
+0 3 has taken a fork
+0 1 has taken a fork
+0 5 has taken a fork
+0 1 has taken a fork
+0 3 has taken a fork
+0 5 has taken a fork
+0 3 is eating
+0 5 is eating
+0 1 is eating
+210 6 has taken a fork
+210 5 is sleeping
+210 4 has taken a fork
+210 3 is sleeping
+210 1 is sleeping
+210 2 has taken a fork
+210 6 has taken a fork
+210 6 is died
+philo 6
+last_eat: 420
+phlio 2: 읍읍!!!4
+phlio 4: 읍읍!!!4
+phlio 2: 읍읍!!!0
+phlio 4: 읍읍!!!0
