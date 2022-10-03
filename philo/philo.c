@@ -40,11 +40,9 @@ int	init_philo(t_table *table)
 	{
 		philo[i].philo_no = i + 1;
 		philo[i].time_last_eat = 0;
-		philo[i].is_die = 0;
 		philo[i].thread_philo = 0;
 		philo[i].table = table;
 		philo[i].cnt_eat = 0;
-		philo[i].cnt_sleep = 0;
 		i++;
 	}
 	table->philo = philo;
@@ -58,8 +56,6 @@ int	init_mutex(t_table *table)
 	philo = table->philo;
 	table->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
 					* table->n_philo);
-	if (pthread_mutex_init(&table->m_end_flag, 0) < 0)
-		return (0);
 	if (!init_fork(table, philo))
 		return (0);
 	if (pthread_mutex_init(&table->watch, 0) < 0)
@@ -84,9 +80,10 @@ int	parse_arg(int argc, char **argv, t_table *table)
 		table->n_eat_end = -1;
 	table->start_time = 0;
 	table->end_flag = 0;
-	table->started_philo = 0;
 	table->fork = NULL;
 	table->philo = NULL;
+	if (table->n_philo <= 0 || table->n_eat_end == 0)
+		return (0);
 	return (1);
 }
 
@@ -96,6 +93,11 @@ int	main(int argc, char **argv)
 
 	if (!parse_arg(argc, argv, &table))
 		return (0); //////////에러함수 추가예정
+	if (table.n_philo == 1)
+	{
+		one_philo(table.time_to_die);
+		return (0);
+	}
 	if (!init_philo(&table))
 		return (0); /////////에러함수 추가 예정
 	if (!init_mutex(&table))
@@ -103,5 +105,7 @@ int	main(int argc, char **argv)
 	if (!create_philo_thread(&table))
 		return (0);
 	start_table(&table);
+	task_end(&table);
+	system("leaks philo");
 	return (0);
 }

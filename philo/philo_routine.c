@@ -15,7 +15,6 @@
 void	wait_watch(t_table *table)
 {
 	pthread_mutex_lock(&table->watch);
-	table->started_philo++;
 	pthread_mutex_unlock(&table->watch);
 }
 
@@ -25,16 +24,13 @@ void	*philo_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	wait_watch(philo->table);
-	pthread_mutex_lock(&philo->table->m_table);
-	philo->time_last_eat = philo->table->start_time;
-	pthread_mutex_unlock(&philo->table->m_table);
 	if (philo->philo_no % 2 == 0)
-		usleep(900);
+		usleep(800);
 	while (1)
 	{
 		if (philo->cnt_eat >= philo->table->n_eat_end
 			&& philo->table->n_eat_end != -1)
-			break;
+			break ;
 		if (get_end_flag(philo->table) || philo_eat(philo))
 			break ;
 		if (get_end_flag(philo->table) || philo_sleep(philo))

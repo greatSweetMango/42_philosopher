@@ -31,21 +31,19 @@ int		get_end_flag(t_table *table)
 	return (0);
 }
 
-void	set_is_die(t_philo *philo, int n)
+void	set_time_last_eat(t_philo *philo, u_int64_t time)
 {
 	pthread_mutex_lock(&philo->m_philo);
-	philo->is_die = n;
+	philo->time_last_eat = time;
 	pthread_mutex_unlock(&philo->m_philo);
 }
 
-int	get_is_die(t_philo *philo)
+u_int64_t	get_time_last_eat(t_philo *philo)
 {
+	u_int64_t	time_last_eat;
+
 	pthread_mutex_lock(&philo->m_philo);
-	if (philo->is_die)
-	{
-		pthread_mutex_unlock(&philo->m_philo);
-		return (1);
-	}
+	time_last_eat = philo->time_last_eat;
 	pthread_mutex_unlock(&philo->m_philo);
-	return (0);
+	return (time_last_eat);
 }

@@ -41,14 +41,15 @@ int	init_fork(t_table *table, t_philo *philo)
 int	sleep_loop(t_philo *philo, u_int64_t time)
 {
 	u_int64_t	start;
+	u_int64_t	die_time;
 
 	start = get_time();
+	die_time = get_time_last_eat(philo) + philo->table->time_to_die;
 	while (1)
 	{
-		if (philo->time_last_eat + philo->table->time_to_die
-			< get_time())
+		if (die_time < get_time())
 			return (1);
-		else if (get_time() > start + time)
+		else if (get_time() >= start + time)
 			return (0);
 		usleep(100);
 	}
@@ -72,18 +73,16 @@ void	monitoring(t_table *table)
 	{
 		pthread_mutex_lock(&table->watch);
 		i = 0;
-		while (i < table->n_philo && table->started_philo >= table->n_philo)
+		while (i < table->n_philo)
 		{
-			pthread_mutex_lock(&philo[i].m_philo);
-			if (get_time() - philo[i].time_last_eat > table->time_to_die)
+			if (get_time() - get_time_last_eat(&philo[i]) > table->time_to_die)
 			{
-				printf("%llu %d is died\n", (get_time() - table->start_time)
-				, philo[i].philo_no);
 				set_end_flag(table, 1);
-				pthread_mutex_unlock(&philo[i].m_philo);
+				if (philo[i].cnt_eat < table->n_eat_end)
+					printf("%llu %d is died\n", (get_time() - table->start_time)
+						, philo[i].philo_no);
 				break ;
 			}
-			pthread_mutex_unlock(&philo[i].m_philo);
 			i++;
 		}
 		pthread_mutex_unlock(&table->watch);
@@ -106,10 +105,15 @@ void	wait_thread(t_table *table)
 
 void	start_table(t_table *table)
 {
+	int	i;
 
-	pthread_mutex_lock(&table->m_table);
 	table->start_time = get_time();
-	pthread_mutex_unlock(&table->m_table);
+	i = 0;
+	while (i < table->n_philo)
+	{
+		table->philo[i].time_last_eat = table->start_time;
+		i++;
+	}
 	pthread_mutex_unlock(&table->watch);
 	monitoring(table);
 	wait_thread(table);

@@ -38,16 +38,9 @@ int	philo_eat(t_philo *philo)
 	table = philo->table;
 	grep_fork(philo);
 	time = get_time();
+	set_time_last_eat(philo, time);
 	print_message(philo, MSG_EAT, time);
-	pthread_mutex_lock(&philo->m_philo);
-	philo->time_last_eat = time;
-	pthread_mutex_unlock(&philo->m_philo);
-	if (sleep_loop(philo, table->time_to_eat))
-	{
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
-		return (print_message(philo, MSG_DIE, time));
-	}
+	sleep_loop(philo, table->time_to_eat);
 	philo->cnt_eat++;
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
@@ -62,15 +55,13 @@ int	philo_sleep(t_philo *philo)
 	table = philo->table;
 	time = get_time();
 	print_message(philo, MSG_SLEEP, time);
-	if (sleep_loop(philo, table->time_to_eat))
-		return (print_message(philo, MSG_DIE, time));
-	philo->cnt_sleep++;
+	sleep_loop(philo, table->time_to_sleep);
 	return (0);
 }
 
 int	philo_think(t_philo *philo)
 {
 	print_message(philo, MSG_THINK, get_time());
-	//usleep(800);
+	usleep(600);
 	return (0);
 }

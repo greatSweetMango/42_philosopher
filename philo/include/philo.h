@@ -23,19 +23,17 @@
 # define SLEEPING 2
 # define THINKING 3
 
-# define MSG_DIE 0
-# define MSG_EAT 1
-# define MSG_SLEEP 2
-# define MSG_THINK 3
-# define MSG_GREP_FORK 4
+# define MSG_DIE "is die"
+# define MSG_EAT "is eating"
+# define MSG_SLEEP "is sleeping"
+# define MSG_THINK "is thinking"
+# define MSG_GREP_FORK "has taken a fork"
 
 typedef struct s_philo
 {
 	int			philo_no;
 	u_int64_t	time_last_eat;
-	int			is_die;
 	int			cnt_eat;
-	int			cnt_sleep;
 
 	pthread_mutex_t m_philo;
 	pthread_mutex_t *right_fork;
@@ -47,7 +45,6 @@ typedef struct s_philo
 typedef struct s_table
 {
 	int				n_philo;
-	int				started_philo;
 	u_int64_t		time_to_die;
 	u_int64_t		time_to_eat;
 	u_int64_t		time_to_sleep;
@@ -55,7 +52,6 @@ typedef struct s_table
 	u_int64_t		start_time;
 	int				end_flag;
 	
-	pthread_mutex_t	m_end_flag;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t m_table;
 	pthread_mutex_t	watch;
@@ -78,9 +74,6 @@ void	*philo_routine(void	*philo);
 
 void	start_table(t_table *table);
 
-//checker
-int		check_sommone_die(t_table *table);
-
 //get_time
 u_int64_t	get_time(void);
 
@@ -90,7 +83,7 @@ int	philo_sleep(t_philo *philo);
 int	philo_think(t_philo *philo);
 
 //printf_message
-int	print_message(t_philo *philo, int message_type,
+int	print_message(t_philo *philo, char *message_type,
 					u_int64_t time);
 
 //philo_utils
@@ -100,6 +93,12 @@ int		init_fork(t_table *table, t_philo *philo);
 //task_mutex
 void	set_end_flag(t_table *table, int n);
 int		get_end_flag(t_table *table);
-void	set_is_die(t_philo *philo, int n);
-int		get_is_die(t_philo *philo);
+void	set_time_last_eat(t_philo *philo, u_int64_t time);
+u_int64_t	get_time_last_eat(t_philo *philo);
+
+//task_end
+void	task_end(t_table *table);
+
+void	one_philo(u_int64_t	time);
+
 #endif

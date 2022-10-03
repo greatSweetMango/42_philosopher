@@ -50,21 +50,20 @@ int	check_args(int argc, char **argv)
 	return (1);
 }
 
-int	check_sommone_die(t_table *table)
+void	one_philo(u_int64_t	time)
 {
-	int	i;
+	u_int64_t	start;
 
-	if (get_end_flag(table))
-		return (1);
-	i = 0;
-	while (i < table->n_philo)
+	printf("0 1 has taken a fork\n");
+	start = get_time();
+	while (1)
 	{
-		if (get_is_die(&table->philo[i]) == 1)
+		if (start + time <= get_time())
 		{
-			set_end_flag(table, 1);
-			return (1);
+			printf("%llu 1 is die\n", get_time() - start);
+			return ;
 		}
-		i++;
+		usleep(100);
 	}
-	return (0);
+	return ;
 }

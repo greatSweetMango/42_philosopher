@@ -18,7 +18,8 @@ FILES 		= philo.c			\
 				philo_routine.c	\
 				print_message.c	\
 				philo_do.c		\
-				task_mutex.c	
+				task_mutex.c	\
+				task_end.c
 
 SRCS		= $(addprefix $(MANDATORYDIR), $(FILES))
 
