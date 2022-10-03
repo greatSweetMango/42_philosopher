@@ -92,20 +92,20 @@ int	main(int argc, char **argv)
 	t_table			table;
 
 	if (!parse_arg(argc, argv, &table))
-		return (0); //////////에러함수 추가예정
+		return (0);
 	if (table.n_philo == 1)
 	{
 		one_philo(table.time_to_die);
 		return (0);
 	}
 	if (!init_philo(&table))
-		return (0); /////////에러함수 추가 예정
+		return (0);
 	if (!init_mutex(&table))
-		return (0); /////////에러함수 추가 예정
+		return (0);
 	if (!create_philo_thread(&table))
 		return (0);
 	start_table(&table);
 	task_end(&table);
-	system("leaks philo");
+	//system("leaks philo");
 	return (0);
 }
