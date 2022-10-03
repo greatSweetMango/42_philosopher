@@ -106,6 +106,5 @@ int	main(int argc, char **argv)
 		return (0);
 	start_table(&table);
 	task_end(&table);
-	//system("leaks philo");
 	return (0);
 }
