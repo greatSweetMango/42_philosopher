@@ -19,7 +19,7 @@ int	print_message(t_philo *philo, int message_type,
 
 	table = philo->table;
 	pthread_mutex_lock(&table->watch);
-	if (check_sommone_die(table))
+	if (get_end_flag(table))
 	{
 		printf("phlio %d: 읍읍!!!%d\n", philo->philo_no, message_type);
 		pthread_mutex_unlock(&table->watch);

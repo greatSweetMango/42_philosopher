@@ -47,6 +47,7 @@ typedef struct s_philo
 typedef struct s_table
 {
 	int				n_philo;
+	int				started_philo;
 	u_int64_t		time_to_die;
 	u_int64_t		time_to_eat;
 	u_int64_t		time_to_sleep;

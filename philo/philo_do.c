@@ -39,7 +39,9 @@ int	philo_eat(t_philo *philo)
 	grep_fork(philo);
 	time = get_time();
 	print_message(philo, MSG_EAT, time);
+	pthread_mutex_lock(&philo->m_philo);
 	philo->time_last_eat = time;
+	pthread_mutex_unlock(&philo->m_philo);
 	if (sleep_loop(philo, table->time_to_eat))
 	{
 		pthread_mutex_unlock(philo->right_fork);

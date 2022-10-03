@@ -70,18 +70,24 @@ void	monitoring(t_table *table)
 	philo = table->philo;
 	while (!get_end_flag(table))
 	{
-		pthread_mutex_lock(table->watch);
+		pthread_mutex_lock(&table->watch);
 		i = 0;
-		while (i < table->n_philo)
+		while (i < table->n_philo && table->started_philo >= table->n_philo)
 		{
+			pthread_mutex_lock(&philo[i].m_philo);
 			if (get_time() - philo[i].time_last_eat > table->time_to_die)
 			{
 				printf("%llu %d is died\n", (get_time() - table->start_time)
-				, philo->philo_no);
+				, philo[i].philo_no);
 				set_end_flag(table, 1);
+				pthread_mutex_unlock(&philo[i].m_philo);
+				break ;
 			}
+			pthread_mutex_unlock(&philo[i].m_philo);
+			i++;
 		}
-		pthread_mutex_unlock(table->watch);
+		pthread_mutex_unlock(&table->watch);
+		usleep(100);
 	}
 }
 
@@ -100,9 +106,11 @@ void	wait_thread(t_table *table)
 
 void	start_table(t_table *table)
 {
+
+	pthread_mutex_lock(&table->m_table);
 	table->start_time = get_time();
+	pthread_mutex_unlock(&table->m_table);
 	pthread_mutex_unlock(&table->watch);
-	usleep(400);
 	monitoring(table);
 	wait_thread(table);
 }

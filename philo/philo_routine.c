@@ -12,13 +12,11 @@
 
 #include "philo.h"
 
-void	wait_watch(t_table *table, t_philo *philo)
+void	wait_watch(t_table *table)
 {
 	pthread_mutex_lock(&table->watch);
+	table->started_philo++;
 	pthread_mutex_unlock(&table->watch);
-	usleep(philo->philo_no);
-	if (philo->philo_no % 2 == 0)
-		usleep(100);
 }
 
 void	*philo_routine(void *arg)
@@ -26,10 +24,12 @@ void	*philo_routine(void *arg)
 	t_philo			*philo;
 
 	philo = (t_philo *)arg;
-	wait_watch(philo->table, philo);
+	wait_watch(philo->table);
+	pthread_mutex_lock(&philo->table->m_table);
+	philo->time_last_eat = philo->table->start_time;
+	pthread_mutex_unlock(&philo->table->m_table);
 	if (philo->philo_no % 2 == 0)
 		usleep(900);
-	philo->time_last_eat = philo->table->start_time;
 	while (1)
 	{
 		if (philo->cnt_eat >= philo->table->n_eat_end

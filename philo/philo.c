@@ -84,6 +84,7 @@ int	parse_arg(int argc, char **argv, t_table *table)
 		table->n_eat_end = -1;
 	table->start_time = 0;
 	table->end_flag = 0;
+	table->started_philo = 0;
 	table->fork = NULL;
 	table->philo = NULL;
 	return (1);
