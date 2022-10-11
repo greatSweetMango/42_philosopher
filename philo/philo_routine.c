@@ -25,7 +25,7 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	wait_watch(philo->table);
 	if (philo->philo_no % 2 == 0)
-		usleep(800);
+		usleep((philo->table->time_to_eat / 2) * 800 + 500);
 	while (1)
 	{
 		if (philo->cnt_eat >= philo->table->n_eat_end

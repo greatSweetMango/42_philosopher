@@ -78,7 +78,7 @@ void	monitoring(t_table *table)
 			if (get_time() - get_time_last_eat(&philo[i]) > table->time_to_die)
 			{
 				set_end_flag(table, 1);
-				if (philo[i].cnt_eat < table->n_eat_end)
+				if (philo[i].cnt_eat < table->n_eat_end || table->n_eat_end < 0)
 					printf("%llu %d is died\n", (get_time() - table->start_time)
 						, philo[i].philo_no);
 				break ;
