@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*   philo_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaehyuki <jaehyuki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -101,21 +101,4 @@ void	wait_thread(t_table *table)
 		pthread_join(table->philo[i].thread_philo, (void **)&joinrv);
 		i++;
 	}
-}
-
-void	start_table(t_table *table)
-{
-	int	i;
-
-	table->start_time = get_time();
-	i = 0;
-	while (i < table->n_philo)
-	{
-		table->philo[i].time_last_eat = table->start_time;
-		i++;
-	}
-	pthread_mutex_unlock(&table->watch);
-	usleep(100000);
-	monitoring(table);
-	wait_thread(table);
 }

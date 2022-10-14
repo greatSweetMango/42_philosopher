@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_routine.c                                    :+:      :+:    :+:   */
+/*   philo_routine_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaehyuki <jaehyuki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,31 +12,19 @@
 
 #include "philo.h"
 
-void	wait_watch(t_table *table)
+void	*philo_routine(t_philo *philo)
 {
-	pthread_mutex_lock(&table->watch);
-	pthread_mutex_unlock(&table->watch);
-}
-
-void	*philo_routine(void *arg)
-{
-	t_philo			*philo;
-
-	philo = (t_philo *)arg;
-	wait_watch(philo->table);
 	if (philo->philo_no % 2 == 0)
-		usleep((philo->table->time_to_eat / 2) * 10);
+		usleep((philo->table->time_to_eat / 2) * 800 + 500);
 	while (1)
 	{
 		if (philo->cnt_eat >= philo->table->n_eat_end
 			&& philo->table->n_eat_end != -1)
-			break ;
-		if (get_end_flag(philo->table) || philo_eat(philo))
-			break ;
-		if (get_end_flag(philo->table) || philo_sleep(philo))
-			break ;
-		if (get_end_flag(philo->table) || philo_think(philo))
-			break ;
+			while(1)
+			;
+		philo_eat(philo);
+		philo_sleep(philo);
+		philo_think(philo);
 	}
 	return (NULL);
 }

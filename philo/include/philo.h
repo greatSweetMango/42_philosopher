@@ -19,10 +19,6 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-# define EATING 1
-# define SLEEPING 2
-# define THINKING 3
-
 # define MSG_DIE "is die"
 # define MSG_EAT "is eating"
 # define MSG_SLEEP "is sleeping"
@@ -72,8 +68,6 @@ size_t	ft_strlen(const char *s);
 //philo_routine
 void	*philo_routine(void	*philo);
 
-void	start_table(t_table *table);
-
 //get_time
 u_int64_t	get_time(void);
 
@@ -89,6 +83,7 @@ int	print_message(t_philo *philo, char *message_type,
 //philo_utils
 int		sleep_loop(t_philo *philo, u_int64_t time);
 int		init_fork(t_table *table, t_philo *philo);
+void	start_table(t_table *table);
 
 //task_mutex
 void	set_end_flag(t_table *table, int n);

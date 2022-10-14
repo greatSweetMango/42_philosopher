@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_message.c                                    :+:      :+:    :+:   */
+/*   print_message_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaehyuki <jaehyuki@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	print_message(t_philo *philo, char *message,
 					u_int64_t time)
@@ -18,10 +18,10 @@ int	print_message(t_philo *philo, char *message,
 	t_table *table;
 
 	table = philo->table;
-	pthread_mutex_lock(&table->watch);
-	if (!get_end_flag(table))
+	sem_wait(table->talk);
+	if (!table->end_flag)
 		printf("%llu %d %s\n", (time - table->start_time)
 				, philo->philo_no, message);
-	pthread_mutex_unlock(&table->watch);
+	sem_post(table->talk);
 	return (1);
 }
