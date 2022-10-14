@@ -12,7 +12,8 @@ FWS			= -framework OpenGL -framework AppKit
 RM			= rm -rf
 AR			= ar rcs
 
-FILES 		=
+FILES 		= philo_bonus.c		\
+				ft_lib_bonus.c	\
 
 SRCS		= $(addprefix $(MANDATORYDIR), $(FILES))
 
