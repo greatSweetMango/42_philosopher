@@ -10,10 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
-void	grep_fork(t_table *table)
+void	grep_fork(t_philo *philo)
 {
+	t_table	*table;
+
+	table = philo->table;
 	sem_wait(table->fork);
 	print_message(philo, MSG_GREP_FORK, get_time());
 	sem_wait(table->fork);
@@ -28,12 +31,12 @@ int	philo_eat(t_philo *philo)
 	table = philo->table;
 	grep_fork(philo);
 	time = get_time();
-	set_time_last_eat(philo, time);
+	philo->time_last_eat = time;
 	print_message(philo, MSG_EAT, time);
 	sleep_loop(philo, table->time_to_eat);
 	philo->cnt_eat++;
-	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_unlock(philo->left_fork);
+	sem_post(table->fork);
+	sem_post(table->fork);
 	return (0);
 }
 

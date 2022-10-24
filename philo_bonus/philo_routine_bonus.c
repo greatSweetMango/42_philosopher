@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 void	*philo_routine(t_philo *philo)
 {
 	if (philo->philo_no % 2 == 0)
-		usleep((philo->table->time_to_eat / 2) * 800 + 500);
+		usleep((philo->table->time_to_eat / 2) * 50);
 	while (1)
 	{
 		if (philo->cnt_eat >= philo->table->n_eat_end

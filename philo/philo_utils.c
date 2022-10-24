@@ -115,7 +115,7 @@ void	start_table(t_table *table)
 		i++;
 	}
 	pthread_mutex_unlock(&table->watch);
-	usleep(100000);
+	usleep(table->n_philo * 10);
 	monitoring(table);
 	wait_thread(table);
 }

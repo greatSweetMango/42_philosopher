@@ -99,7 +99,7 @@ int	init_sem(t_table *table)
 	sem_unlink("/fork");
 	sem_unlink("/watch");
 	sem_unlink("/talk");
-	table->fork = sem_open("/forks", O_CREAT, S_IRWXU, talbe->n_philo);
+	table->fork = sem_open("/forks", O_CREAT, S_IRWXU, table->n_philo);
 	if (table->fork <= 0)
 		return (0);
 	table->watch = sem_open("/watch", O_CREAT, S_IRWXU, 1);
@@ -111,7 +111,7 @@ int	init_sem(t_table *table)
 	return (1);
 }
 
-void	start_table(t_table *table)
+int	start_table(t_table *table)
 {
 	int		i;
 	t_philo	*philo;
@@ -125,7 +125,8 @@ void	start_table(t_table *table)
 		if (philo[i].pid < 0)
 			return (0);
 		if (philo[i].pid == 0)
-			philo_routine(&philo[i])
+			philo_routine(&philo[i]);
+		i++;
 		usleep(50);
 	}
 	return (0);

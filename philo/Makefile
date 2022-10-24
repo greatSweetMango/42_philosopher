@@ -7,7 +7,7 @@ INCLUDE    	= include
 MANDATORYDIR= ./
 
 CC			= gcc
-CFLAGS		= -g -Wall -Werror -Wextra -g3 -fsanitize=thread
+CFLAGS		= -Wall -Werror -Wextra #-g3 -fsanitize=thread
 RM			= rm -rf
 AR			= ar rcs
 

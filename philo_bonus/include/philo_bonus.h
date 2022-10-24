@@ -25,7 +25,6 @@ typedef struct s_philo
 	int			cnt_eat;
 	pid_t		pid;
 	pthread_t	thread_monitor;
-	sem_t			*watch;
 	struct s_table	*table;
 }	t_philo;
 
@@ -33,7 +32,6 @@ typedef struct s_philo
 typedef struct s_table
 {
 	int				n_philo;
-	int				started_philo;//??
 	u_int64_t		time_to_die;
 	u_int64_t		time_to_eat;
 	u_int64_t		time_to_sleep;
@@ -41,9 +39,12 @@ typedef struct s_table
 	u_int64_t		start_time;
 	int				end_flag;
 	sem_t			*fork;
+	sem_t			*watch;
 	sem_t			*talk;
 	t_philo			*philo;
 }	t_table;
+
+typedef struct timeval t_timeval;
 
 //ft_lib.c
 int		ft_atoi(const char *str);
@@ -55,9 +56,17 @@ size_t	ft_strlen(const char *s);
 //philo_utils_bonus.c
 int			sleep_loop(t_philo *philo, u_int64_t time);
 int			init_fork(t_table *table, t_philo *philo);
-void		start_table(t_table *table);
 u_int64_t	get_time(void);
+
+//philo_do_bonus.c
+void	grep_fork(t_philo *philo);
+int		philo_eat(t_philo *philo);
+int		philo_sleep(t_philo *philo);
+int		philo_think(t_philo *philo);
 
 //print_message_bonus.c
 int	print_message(t_philo *philo, char *message, u_int64_t time);
+
+//philo_routine_bonus.c
+void	*philo_routine(t_philo *philo);
 #endif
