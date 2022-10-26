@@ -31,7 +31,9 @@ int	philo_eat(t_philo *philo)
 	table = philo->table;
 	grep_fork(philo);
 	time = get_time();
+	sem_wait(table->watch);
 	philo->time_last_eat = time;
+	sem_post(table->watch);
 	print_message(philo, MSG_EAT, time);
 	sleep_loop(philo, table->time_to_eat);
 	philo->cnt_eat++;

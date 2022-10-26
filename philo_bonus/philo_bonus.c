@@ -129,7 +129,21 @@ int	start_table(t_table *table)
 		i++;
 		usleep(50);
 	}
-	return (0);
+	return (1);
+}
+
+void	end_table(t_table *table)
+{
+	t_philo	*philo;
+	int		exit_code;
+	int		i;
+
+	philo = table->philo;
+	i = -1;
+	while (++i < table->n_philo)
+		waitpid(philo[i].pid, &exit_code, 0);
+	//할당 해제
+	//세마포어 닫기
 }
 
 int	main(int argc, char **argv)
@@ -142,6 +156,8 @@ int	main(int argc, char **argv)
 		return (0);
 	if (!init_sem(&table))
 		return (0);
-	start_table(&table);
-	
+	if (!start_table(&table))
+		return (0);////에러??
+	end_table(&table);
+	return (0);
 }

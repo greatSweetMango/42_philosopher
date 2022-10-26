@@ -69,4 +69,7 @@ int	print_message(t_philo *philo, char *message, u_int64_t time);
 
 //philo_routine_bonus.c
 void	*philo_routine(t_philo *philo);
+
+//task_sem_bonus.c
+int		get_end_flag(t_table *table);
 #endif
